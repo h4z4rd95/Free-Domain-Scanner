@@ -1,0 +1,44 @@
+```
+# Dependencies
+vendor/
+
+# Compiled and build artifacts
+*.phpc
+*.o
+*.obj
+dist/
+build/
+target/
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+
+# Environment
+.env
+.env.local
+.env.*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Cache directories
+__pycache__/
+*.pyc
+*.pyo
+.Python
+.coverage
+coverage/
+htmlcov/
+
+# PHP specific
+*.phar
+```
