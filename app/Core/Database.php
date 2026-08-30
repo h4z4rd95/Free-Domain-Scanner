@@ -32,6 +32,12 @@ class Database
     private function connect(): void
     {
         try {
+            // For development/testing without database
+            if (getenv('APP_ENV') === 'test' || !extension_loaded('pdo_mysql')) {
+                // Skip connection in test mode
+                return;
+            }
+
             $dsn = sprintf(
                 "mysql:host=%s;dbname=%s;charset=%s",
                 $this->config['host'],
@@ -48,6 +54,10 @@ class Database
 
         } catch (PDOException $e) {
             error_log("Database connection failed: " . $e->getMessage());
+            // In development, show detailed error. In production, show friendly message.
+            if (getenv('APP_ENV') === 'development') {
+                throw $e;
+            }
             throw new PDOException("اتصال به پایگاه داده با خطا مواجه شد. لطفاً با پشتیبانی تماس بگیرید.");
         }
     }
