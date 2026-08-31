@@ -169,17 +169,32 @@ class Domain
      */
     public function getExtensions(?string $category = null): array
     {
-        $sql = "SELECT * FROM domain_extensions WHERE is_active = 1";
-        $params = [];
+        // Fallback data if database is not available
+        $fallbackExtensions = [
+            ['extension' => 'com', 'category' => 'general', 'price_usd' => 10.00, 'priority' => 1, 'is_active' => 1],
+            ['extension' => 'net', 'category' => 'general', 'price_usd' => 12.00, 'priority' => 2, 'is_active' => 1],
+            ['extension' => 'org', 'category' => 'organization', 'price_usd' => 11.00, 'priority' => 3, 'is_active' => 1],
+            ['extension' => 'ir', 'category' => 'country', 'price_usd' => 2.00, 'priority' => 4, 'is_active' => 1],
+            ['extension' => 'io', 'category' => 'tech', 'price_usd' => 35.00, 'priority' => 5, 'is_active' => 1],
+        ];
 
-        if ($category) {
-            $sql .= " AND category = :category";
-            $params['category'] = $category;
+        try {
+            $sql = "SELECT * FROM domain_extensions WHERE is_active = 1";
+            $params = [];
+
+            if ($category) {
+                $sql .= " AND category = :category";
+                $params['category'] = $category;
+            }
+
+            $sql .= " ORDER BY priority ASC, extension ASC";
+
+            return $this->db->fetchAll($sql, $params);
+        } catch (\Exception $e) {
+            // Return fallback data if database is not available
+            error_log("Failed to fetch extensions from DB: " . $e->getMessage());
+            return $fallbackExtensions;
         }
-
-        $sql .= " ORDER BY priority ASC, extension ASC";
-
-        return $this->db->fetchAll($sql, $params);
     }
 
     /**
@@ -187,10 +202,15 @@ class Domain
      */
     public function getCategories(): array
     {
-        $sql = "SELECT DISTINCT category FROM domain_extensions WHERE is_active = 1";
-        $results = $this->db->fetchAll($sql);
-        
-        return array_column($results, 'category');
+        try {
+            $sql = "SELECT DISTINCT category FROM domain_extensions WHERE is_active = 1";
+            $results = $this->db->fetchAll($sql);
+            
+            return array_column($results, 'category');
+        } catch (\Exception $e) {
+            // Fallback categories
+            return ['general', 'organization', 'country', 'tech'];
+        }
     }
 
     /**
@@ -198,10 +218,22 @@ class Domain
      */
     public function getDomainPrice(string $extension): float
     {
-        $sql = "SELECT price_usd FROM domain_extensions WHERE extension = :ext AND is_active = 1";
-        $result = $this->db->fetch($sql, ['ext' => $extension]);
-        
-        return $result ? (float) $result['price_usd'] : 10.00; // Default price
+        try {
+            $sql = "SELECT price_usd FROM domain_extensions WHERE extension = :ext AND is_active = 1";
+            $result = $this->db->fetch($sql, ['ext' => $extension]);
+            
+            return $result ? (float) $result['price_usd'] : 10.00; // Default price
+        } catch (\Exception $e) {
+            // Fallback prices
+            $prices = [
+                'com' => 10.00,
+                'net' => 12.00,
+                'org' => 11.00,
+                'ir' => 2.00,
+                'io' => 35.00,
+            ];
+            return $prices[$extension] ?? 10.00;
+        }
     }
 
     /**
