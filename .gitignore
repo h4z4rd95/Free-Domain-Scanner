@@ -1,42 +1,19 @@
-# Dependencies
-/vendor/
+```php
+# Environment specific files
+.env
+.env.local
+.env.*
 
-# Configuration files with sensitive data
-/config/database.php
-/config/app.local.php
-
-# Lock files
-/config/install.lock
-
-# Logs
-/storage/logs/*.log
-!storage/logs/.gitkeep
-
-# Cache
-/storage/cache/*
-!storage/cache/.gitkeep
-
-# Uploaded files
-/public/uploads/receipts/*
-!public/uploads/receipts/.gitkeep
-
-# IDE
+# IDE and editor files
 .vscode/
 .idea/
 *.swp
 *.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Environment
-.env
-.env.local
-.env.production
-
-# Temporary files
-tmp/
-temp/
 *.tmp
+
+# Log files
+*.log
+
+# Build artifacts and dependencies would go here if present
+# Currently only PHP config and source files are being tracked
+```
