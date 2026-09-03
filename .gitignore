@@ -1,42 +1,45 @@
+```
+# Compiled and build artifacts
+*.pyc
+__pycache__/
+*.o
+*.obj
+
 # Dependencies
-/vendor/
+vendor/
+node_modules/
 
-# Configuration files with sensitive data
-/config/database.php
-/config/app.local.php
-
-# Lock files
-/config/install.lock
-
-# Logs
-/storage/logs/*.log
-!storage/logs/.gitkeep
-
-# Cache
-/storage/cache/*
-!storage/cache/.gitkeep
-
-# Uploaded files
-/public/uploads/receipts/*
-!public/uploads/receipts/.gitkeep
-
-# IDE
-.vscode/
-.idea/
+# Logs and temp files
+*.log
+*.tmp
 *.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
 
 # Environment
 .env
 .env.local
-.env.production
+.env.*
 
-# Temporary files
-tmp/
-temp/
-*.tmp
+# Editors
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# Build directories
+build/
+dist/
+target/
+
+# Python specific
+*.py[cod]
+*$py.class
+*.so
+.Python
+```
