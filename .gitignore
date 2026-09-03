@@ -1,19 +1,45 @@
-```php
-# Environment specific files
+```
+# Compiled and build artifacts
+*.pyc
+__pycache__/
+*.o
+*.obj
+
+# Dependencies
+vendor/
+node_modules/
+
+# Logs and temp files
+*.log
+*.tmp
+*.swp
+
+# Environment
 .env
 .env.local
 .env.*
 
-# IDE and editor files
+# Editors
 .vscode/
 .idea/
-*.swp
-*.swo
-*.tmp
 
-# Log files
-*.log
+# OS generated files
+.DS_Store
+Thumbs.db
 
-# Build artifacts and dependencies would go here if present
-# Currently only PHP config and source files are being tracked
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# Build directories
+build/
+dist/
+target/
+
+# Python specific
+*.py[cod]
+*$py.class
+*.so
+.Python
 ```
